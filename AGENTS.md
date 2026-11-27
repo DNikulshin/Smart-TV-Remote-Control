@@ -8,6 +8,11 @@
 
 - `lib/l10n/app_ru.arb` — полный русский перевод (79 строк, плюрализация счётчика устройств).
 - `lib/l10n/app_localizations*.dart` — сгенерированы `flutter gen-l10n`, коммитятся.
+- Тачпад для курсора на LG webOS (issue #15): `lib/ui/widgets/remote_controls/components/touchpad.dart`,
+  протокол — `type:move` / `type:click` в сокете указателя (`lg_tv_service.dart`), слой —
+  `TVInterface.supportsPointer/pointerMove/pointerClick` → `TvRepository` → `TvConnectionBloc`
+  (`TvPointerMoved`, `TvPointerClicked`). Кнопка тачпада показывается только для LG
+  (`TvBrand.hasPointer`), на Samsung сокета указателя нет.
 - Переключатель языка в шапке экрана выбора устройства: `LocaleCubit` + `LocaleStorage`
   (`shared_preferences`), «Как в системе» сбрасывает выбор. Тесты:
   `test/blocs/locale/`, `test/ui/language_menu_button_test.dart`.
@@ -72,10 +77,18 @@ PY
 ## Git
 
 - `origin` — `DNikulshin/Smart-TV-Remote-Control` (форк), `upstream` — апстрим (`mazen-salah`).
-- PR в апстрим идёт из ветки `i18n/ru`, а не из `main`: ветка — это `main` без `AGENTS.md`
-  (правила форка апстриму не нужны) плюс сами коммиты. PR #44 — вся русская локализация.
-  После слияния/правок сначала обновлять `i18n/ru`, потом переносить изменения в `main`
-  (`git cherry-pick`), чтобы файлы форка не утекли в PR.
+- PR в апстрим идёт из отдельной ветки, а не из `main`: ветка — это нужный апстрим-база плюс
+  коммиты, без `AGENTS.md` (правила форка апстриму не нужны). После правок в ветке изменения
+  переносятся в `main` через `git cherry-pick`, чтобы файлы форка не утекли в PR.
+- Открытые PR:
+  - #44 `i18n/ru` — русская локализация, переключатель языка, iOS-название, RU-документация.
+    База — `upstream/main`, без `AGENTS.md`.
+  - #45 `fix/narrow-remote-overflow` — переполнение экрана пульта на 360 dp; от i18n не зависит.
+  - `feat/webos-touchpad` — тачпад для webOS (issue #15). **PR ещё не открыт**: ветка лежит
+    поверх `i18n/ru`, потому что тачпад добавляет ключи в `app_ru.arb`, а этот файл появляется
+    только в #44. Если #44 смержат — открыть PR; если нет — нести тачпад вместе с локализацией.
+- Правило для новых фич: если изменения не трогают файлы из #44, ветку можно резать прямо от
+  `upstream/main` и открывать PR сразу (#45 так и сделан).
 - Workflow CI в апстриме на PR из форка висит в `action_required`, пока мейнтейнер не
   разрешит запуск. Поэтому перед PR полезно прогнать локально то же, что делает CI:
   формат, анализ, тесты с покрытием и `flutter build apk --debug`.

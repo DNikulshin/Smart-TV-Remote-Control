@@ -76,4 +76,26 @@ void main() {
     expect(cubit.state, isNull);
     verify(() => storage.save(null)).called(1);
   });
+
+  testWidgets('offers every language the app ships, in the active one', (
+    tester,
+  ) async {
+    await pumpButton(tester);
+
+    await tester.tap(find.byIcon(Icons.translate));
+    await tester.pumpAndSettle();
+
+    // The menu is Russian here, and it must not lag behind the ARB files.
+    for (final label in const [
+      'Английский',
+      'Русский',
+      'Испанский',
+      'Арабский',
+      'Французский',
+      'Немецкий',
+      'Португальский',
+    ]) {
+      expect(find.text(label), findsOneWidget, reason: label);
+    }
+  });
 }

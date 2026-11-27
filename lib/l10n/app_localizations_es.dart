@@ -280,4 +280,13 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get languageArabic => 'Árabe';
+
+  @override
+  String get languageFrench => 'Francés';
+
+  @override
+  String get languageGerman => 'Alemán';
+
+  @override
+  String get languagePortuguese => 'Portugués';
 }

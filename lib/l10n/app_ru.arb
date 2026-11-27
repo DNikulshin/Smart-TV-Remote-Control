@@ -85,5 +85,8 @@
   "languageEnglish": "Английский",
   "languageRussian": "Русский",
   "languageSpanish": "Испанский",
-  "languageArabic": "Арабский"
+  "languageArabic": "Арабский",
+  "languageFrench": "Французский",
+  "languageGerman": "Немецкий",
+  "languagePortuguese": "Португальский"
 }

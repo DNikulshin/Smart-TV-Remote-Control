@@ -289,4 +289,13 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get languageArabic => 'Арабский';
+
+  @override
+  String get languageFrench => 'Французский';
+
+  @override
+  String get languageGerman => 'Немецкий';
+
+  @override
+  String get languagePortuguese => 'Португальский';
 }

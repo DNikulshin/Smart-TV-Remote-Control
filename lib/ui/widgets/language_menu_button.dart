@@ -17,7 +17,11 @@ class LanguageMenuButton extends StatelessWidget {
   /// `null` result as a cancelled menu.
   static const String _system = 'system';
 
-  static const List<String> _codes = <String>['en', 'ru', 'es', 'ar'];
+  /// Every locale the app ships, so a new ARB file appears in the menu
+  /// without this list having to be remembered.
+  static List<String> get _codes => AppLocalizations.supportedLocales
+      .map((locale) => locale.languageCode)
+      .toList(growable: false);
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +54,9 @@ class LanguageMenuButton extends StatelessWidget {
     'ru' => l.languageRussian,
     'es' => l.languageSpanish,
     'ar' => l.languageArabic,
+    'fr' => l.languageFrench,
+    'de' => l.languageGerman,
+    'pt' => l.languagePortuguese,
     _ => l.languageEnglish,
   };
 }

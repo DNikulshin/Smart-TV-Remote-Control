@@ -8,6 +8,11 @@
 
 - `lib/l10n/app_ru.arb` — полный русский перевод (79 строк, плюрализация счётчика устройств).
 - `lib/l10n/app_localizations*.dart` — сгенерированы `flutter gen-l10n`, коммитятся.
+- Приложения (issue #14): `TvApp` в `lib/core/models/tv_app.dart`, id по марке —
+  `lib/services/lg/lg_apps.dart` (`ssap://system.launcher/launch`), `lib/services/samsung/samsung_apps.dart`
+  (событие `ed.apps.launch`). UI — `app_shortcuts.dart`, последний ряд на экране пульта.
+  Экран пульта ездит (`SingleChildScrollView`), средний блок — фиксированная высота 210:
+  крестовина/клавиатура/тачпад подменяют друг друга, остальное не двигается.
 - Тачпад для курсора на LG webOS (issue #15): `lib/ui/widgets/remote_controls/components/touchpad.dart`,
   протокол — `type:move` / `type:click` в сокете указателя (`lg_tv_service.dart`), слой —
   `TVInterface.supportsPointer/pointerMove/pointerClick` → `TvRepository` → `TvConnectionBloc`
@@ -87,6 +92,9 @@ PY
   - `feat/webos-touchpad` — тачпад для webOS (issue #15). **PR ещё не открыт**: ветка лежит
     поверх `i18n/ru`, потому что тачпад добавляет ключи в `app_ru.arb`, а этот файл появляется
     только в #44. Если #44 смержат — открыть PR; если нет — нести тачпад вместе с локализацией.
+  - `feat/app-launcher` — приложения (issue #14), там же. Обе ветки несут коммиты #44,
+    пока он не смержен.
+  - `main` форка = #44 + тачпад + приложения; в upstream уходят только сами фичи.
 - Правило для новых фич: если изменения не трогают файлы из #44, ветку можно резать прямо от
   `upstream/main` и открывать PR сразу (#45 так и сделан).
 - Workflow CI в апстриме на PR из форка висит в `action_required`, пока мейнтейнер не

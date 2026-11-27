@@ -1,5 +1,5 @@
 name: remote
-description: "Universal Smart TV remote — Samsung (WebSocket v2) and LG (WebOS), with discovery via UPnP and mDNS."
+description: "Universal Smart TV remote (Flutter) for Samsung Tizen, LG webOS, Roku and Sony BRAVIA TVs. Универсальный пульт для Smart TV (Flutter): Samsung Tizen, LG webOS, Roku и Sony BRAVIA."
 publish_to: 'none'
 version: 0.4.1+4
 

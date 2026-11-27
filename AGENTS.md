@@ -45,6 +45,17 @@
   подключены вариант-группой в `project.pbxproj`; связность проверяет `tool/check_ios_localization.py`.
 - Документация: `README.ru.md`, `docs/ru/setup.md` (гайд по настройке), `docs/ru/privacy.md`.
 
+## Описания в репозитории
+
+Описания — на двух языках, английском и русском: так же, как документация
+(`README.md` + `README.ru.md`). Это касается GitHub-описания репозитория форка,
+`description` в `pubspec.yaml`, `description` в `web/manifest.json` и
+`<meta name="description">` в `web/index.html`.
+
+Правила формата: GitHub принимает одну строку без переводов строки и не длиннее 350
+символов, файлы в репозитории длиной не ограничены, но держим их короткими. В каждом
+месте сначала английский текст, потом русский — так порядок одинаков везде.
+
 ## Команды
 
 Flutter локально: `export PATH="$HOME/sdk/flutter/bin:$PATH"` (3.47.9 stable).

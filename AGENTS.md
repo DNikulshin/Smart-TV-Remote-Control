@@ -8,6 +8,12 @@
 
 - `lib/l10n/app_ru.arb` — полный русский перевод (79 строк, плюрализация счётчика устройств).
 - `lib/l10n/app_localizations*.dart` — сгенерированы `flutter gen-l10n`, коммитятся.
+- Марки (issues #16, #17): Roku — `lib/services/roku/` (ECP по HTTP, порт 8060, без сопряжения);
+  Sony — `lib/services/sony/` (JSON-RPC `/sony/system` + SOAP `/sony/IRCC`, ключ PSK).
+  Коды кнопок Sony берутся у самого телевизора (`getRemoteControllerInfo`), запасной
+  вариант — только документированные Sony коды; `Info`, `Exit`, перемотка не угадываются.
+  Ключ PSK идёт из диалога ручного добавления через `TVDevice.additionalInfo['sonyPsk']`
+  и сохраняется в `TvTokenStorage` как `psk:sony:<id>`.
 - Громкость (issue #13, Android): `MainActivity.kt` держит играющую `MediaSession` с
   `VolumeProvider`, пока открыт экран пульта и есть связь; нажатия уходят в
   `HardwareVolumeKeys` (`lib/core/services/hardware_volume_keys.dart`) и превращаются в
@@ -96,14 +102,18 @@ PY
   - #46 `feat/hardware-volume-keys` — качелька громкости телефона управляет ТВ (Android,
     `MediaSession` + `VolumeProvider` в `MainActivity.kt`, канал `.../volume_keys`);
     от i18n не зависит. iOS не сделан — в issue #13 остаётся открытым.
+  - #48 `feat/sony-roku` — Roku (ECP) и Sony BRAVIA (JSON-RPC + IRCC) (issues #17 и #16).
+    База — `i18n/ru`, потому что добавлены строки марок и поле ключа PSK. В main они
+    дополнительно реализуют `launchApp`/`supportsPointer`: у Roku есть id каналов
+    (12/837/291097/13), у Sony — только заглушка до появления URI приложений.
   - `feat/webos-touchpad` — тачпад для webOS (issue #15). **PR ещё не открыт**: ветка лежит
     поверх `i18n/ru`, потому что тачпад добавляет ключи в `app_ru.arb`, а этот файл появляется
     только в #44. Если #44 смержат — открыть PR; если нет — нести тачпад вместе с локализацией.
   - `feat/app-launcher` — приложения (issue #14), там же. Обе ветки несут коммиты #44,
     пока он не смержен.
-  - `main` форка = #44 + тачпад + приложения + фикс вёрстки (#45) + громкость (#46); в upstream уходят
-    только сами фичи. Состояние main проверено целиком: 139 тестов, покрытие 70.7%,
-    `flutter build apk --debug` проходит.
+  - `main` форка = #44 + тачпад + приложения + фикс вёрстки (#45) + громкость (#46) + Roku/Sony (#48);
+    в upstream уходят только сами фичи. Состояние main проверено целиком: 180 тестов,
+    покрытие 70%, `flutter build apk --debug` проходит.
 - Правило для новых фич: если изменения не трогают файлы из #44, ветку можно резать прямо от
   `upstream/main` и открывать PR сразу (#45 так и сделан).
 - Workflow CI в апстриме на PR из форка висит в `action_required`, пока мейнтейнер не

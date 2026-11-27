@@ -28,6 +28,10 @@
   `TVInterface.supportsPointer/pointerMove/pointerClick` → `TvRepository` → `TvConnectionBloc`
   (`TvPointerMoved`, `TvPointerClicked`). Кнопка тачпада показывается только для LG
   (`TvBrand.hasPointer`), на Samsung сокета указателя нет.
+- Языки (issue #12): fr/de/pt в `lib/l10n/app_{fr,de,pt}.arb`; меню языка берёт список из
+  `AppLocalizations.supportedLocales`, а не из константы, поэтому новый ARB попадает в меню сам.
+  Строки, добавленные форковыми фичами (`apps`, `touchpad*`, `brandRoku/Sony`, `preSharedKey*`,
+  `language*`), в fr/de/pt дописаны вручную — в PR #51 их нет, там база без этих фич.
 - Переключатель языка в шапке экрана выбора устройства: `LocaleCubit` + `LocaleStorage`
   (`shared_preferences`), «Как в системе» сбрасывает выбор. Тесты:
   `test/blocs/locale/`, `test/ui/language_menu_button_test.dart`.
@@ -102,6 +106,10 @@ PY
   - #46 `feat/hardware-volume-keys` — качелька громкости телефона управляет ТВ (Android,
     `MediaSession` + `VolumeProvider` в `MainActivity.kt`, канал `.../volume_keys`);
     от i18n не зависит. iOS не сделан — в issue #13 остаётся открытым.
+  - #50 `feat/brand-on-device-item` — марка на карточке устройства (issue #11); от i18n не зависит.
+  - #51 `feat/translations-fr-de-pt` — французский, немецкий, португальский (issue #12) и тест
+    `test/l10n/arb_keys_test.dart` на совпадение ключей и плейсхолдеров с шаблоном;
+    от `app_ru.arb` не зависит.
   - #48 `feat/sony-roku` — Roku (ECP) и Sony BRAVIA (JSON-RPC + IRCC) (issues #17 и #16).
     База — `i18n/ru`, потому что добавлены строки марок и поле ключа PSK. В main они
     дополнительно реализуют `launchApp`/`supportsPointer`: у Roku есть id каналов
@@ -111,9 +119,10 @@ PY
     потому что добавляют ключи в `app_ru.arb`, а этот файл появляется только в #44,
     и обе несут его коммиты, пока он не смержен. (#47 сначала висел пустым шаблоном
     с заголовком «Feat/app launcher» — заполнен вручную.)
-  - `main` форка = #44 + тачпад + приложения + фикс вёрстки (#45) + громкость (#46) + Roku/Sony (#48);
-    в upstream уходят только сами фичи. Состояние main проверено целиком: 180 тестов,
-    покрытие 70%, `flutter build apk --debug` проходит.
+  - `main` форка = #44 + тачпад + приложения + фикс вёрстки (#45) + громкость (#46) + Roku/Sony (#48)
+    + марка на карточке (#50) + fr/de/pt (#51); в upstream уходят только сами фичи.
+    Состояние main проверено целиком: 190 тестов, покрытие 70.2%, `flutter build apk --debug`
+    проходит.
 - Правило для новых фич: если изменения не трогают файлы из #44, ветку можно резать прямо от
   `upstream/main` и открывать PR сразу (так сделаны #45, #46, #48).
 - Порядок слияния важен: `app_ru.arb` появляется только в #44, поэтому #47 и #49 имеют смысл

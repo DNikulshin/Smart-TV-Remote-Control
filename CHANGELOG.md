@@ -79,6 +79,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   protocols over `dart:io` `HttpServer`.
 
 ### Fixed
+- A Sony BRAVIA with a pre-shared key worked once and then reported the key
+  as rejected: the key was stored under the host it was typed for, while the
+  next connect resolved the set by its MAC (from `getSystemInformation`) and
+  found nothing there, so no `X-Auth-PSK` was sent and the set answered 403.
+  Every stored credential now follows the device when its identifier changes
+  from the host to the MAC, which also restores LG certificate pinning after
+  the first connect. `forget` clears all of them, and the key is only written
+  once the set has accepted it.
 - The remote screen overflowed on narrow phones: the six media buttons need
   more than a 360 dp screen has (the width of most budget Android handsets),
   and the numeric keypad's four fixed rows did not fit the height left on a

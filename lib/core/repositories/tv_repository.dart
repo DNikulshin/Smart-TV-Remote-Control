@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:remote/constants/key_codes.dart';
 import 'package:remote/core/interfaces/tv_interface.dart';
 import 'package:remote/core/models/disconnection_type.dart';
+import 'package:remote/core/models/tv_app.dart';
 import 'package:remote/core/models/tv_brand.dart';
 import 'package:remote/core/models/tv_device.dart';
 import 'package:remote/core/services/known_tvs_storage.dart';
@@ -192,6 +193,11 @@ class TvRepository {
 
   Future<void> sendKey(KeyCodes key) async {
     await _requireCurrent().sendKey(key);
+  }
+
+  /// Brings [app] to the foreground on the active TV.
+  Future<void> launchApp(TvApp app) async {
+    await _requireCurrent().launchApp(app);
   }
 
   /// Whether the active TV can move a cursor (see `TVInterface.supportsPointer`).

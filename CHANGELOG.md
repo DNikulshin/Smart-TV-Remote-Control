@@ -39,10 +39,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Swipe pad for webOS pointer navigation (LG only): dragging on the pad
   moves the on-screen cursor through the pointer input socket
   (`type:move`); a tap clicks (`type:click`). A touchpad button in the
-  remote's toolbar swaps the pad in for the arrow cluster, so the layout
-  keeps the same height, and the button is hidden for Samsung sets, whose
-  channel carries key presses only. Covered by service, bloc, pad gesture
-  and screen tests.
+  remote's toolbar swaps the pad in for the arrow cluster, and the button is
+  hidden for Samsung sets, whose channel carries key presses only. Covered by
+  service, bloc, pad gesture and screen tests.
+- App shortcuts on the remote: Netflix, YouTube, Disney+ and Prime Video open
+  in one tap. The id is brand-specific and resolved in the implementation —
+  `ssap://system.launcher/launch` with a webOS id, or an `ed.apps.launch`
+  event with a Tizen one (`lg_apps.dart`, `samsung_apps.dart`). The row is
+  the last section on the remote, and the screen now scrolls instead of
+  squeezing its controls when a phone is short.
 
 ### Fixed
 - The Russian device counter rendered a literal `#` (`Найдено # устройства`):

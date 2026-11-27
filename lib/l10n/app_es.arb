@@ -25,6 +25,7 @@
   "touchpad": "Panel táctil",
   "touchpadHint": "Desliza para mover el cursor,\ntoca para seleccionar",
   "power": "Encendido",
+  "apps": "Aplicaciones",
   "connecting": "Conectando…",
   "reconnecting": "Reconectando…",
   "connected": "Conectado",

@@ -14,6 +14,7 @@ class TvConnectionBloc extends Bloc<TvConnectionEvent, TvConnectionState> {
     on<TvConnectRequested>(_onConnectRequested);
     on<TvDisconnectRequested>(_onDisconnectRequested);
     on<TvSendKeyRequested>(_onSendKeyRequested);
+    on<TvAppLaunchRequested>(_onAppLaunchRequested);
     on<TvPointerMoved>(_onPointerMoved);
     on<TvPointerClicked>(_onPointerClicked);
     on<TvForgetRequested>(_onForgetRequested);
@@ -87,6 +88,11 @@ class TvConnectionBloc extends Bloc<TvConnectionEvent, TvConnectionState> {
     Emitter<TvConnectionState> emit,
   ) => _send(() => _repository.sendKey(event.key), emit);
 
+  Future<void> _onAppLaunchRequested(
+    TvAppLaunchRequested event,
+    Emitter<TvConnectionState> emit,
+  ) => _send(() => _repository.launchApp(event.app), emit);
+
   Future<void> _onPointerMoved(
     TvPointerMoved event,
     Emitter<TvConnectionState> emit,
@@ -97,7 +103,7 @@ class TvConnectionBloc extends Bloc<TvConnectionEvent, TvConnectionState> {
     Emitter<TvConnectionState> emit,
   ) => _send(_repository.pointerClick, emit);
 
-  /// Runs one key press or pointer move.
+  /// Runs one key press, app launch or pointer move.
   ///
   /// A failing command (e.g. the LG pointer socket being slow) must not take
   /// the session down while the main connection is still alive.

@@ -18,8 +18,8 @@ class RemoteScreen extends StatefulWidget {
 class _RemoteScreenState extends State<RemoteScreen> {
   bool _keypadShown = false;
 
-  /// The touchpad replaces the arrow cluster while it is on; webOS sets keep
-  /// both, but the middle of the screen only fits one at a time.
+  /// The touchpad replaces the arrow cluster while it is on; both are useful
+  /// on a webOS set, and the middle of the screen only fits one at a time.
   bool _touchpadShown = false;
 
   void _toggleKeypad() => setState(() {
@@ -105,7 +105,7 @@ class _RemoteScreenState extends State<RemoteScreen> {
               final hasPointer =
                   device != null && TvBrand.fromDevice(device).hasPointer;
               final touchpadShown = hasPointer && _touchpadShown;
-              return Padding(
+              return SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 20,
                   vertical: 20,
@@ -120,25 +120,31 @@ class _RemoteScreenState extends State<RemoteScreen> {
                       onToggleTouchpad: hasPointer ? _toggleTouchpad : null,
                       touchpadShown: touchpadShown,
                     ),
-                    const SizedBox(height: 50),
-                    if (_keypadShown)
-                      const NumPad()
-                    else if (touchpadShown)
-                      Expanded(
-                        child: Touchpad(
-                          onMove: (dx, dy) =>
-                              context.moveTvPointer(dx: dx, dy: dy),
-                          onClick: context.clickTvPointer,
-                        ),
-                      )
-                    else
-                      const DirectionKeys(),
-                    const SizedBox(height: 50),
+                    const SizedBox(height: 20),
+                    // The middle of the remote is a fixed-height box: the
+                    // arrow cluster, the keypad and the pad draw different
+                    // things, and the rest of the column must not move when
+                    // they swap.
+                    SizedBox(
+                      height: 210,
+                      child: _keypadShown
+                          ? const NumPad()
+                          : touchpadShown
+                          ? Touchpad(
+                              onMove: (dx, dy) =>
+                                  context.moveTvPointer(dx: dx, dy: dy),
+                              onClick: context.clickTvPointer,
+                            )
+                          : const DirectionKeys(),
+                    ),
+                    const SizedBox(height: 20),
                     const ColorKeys(),
-                    const SizedBox(height: 50),
+                    const SizedBox(height: 20),
                     const VolumeChannelControls(),
-                    const SizedBox(height: 50),
+                    const SizedBox(height: 20),
                     const MediaControls(),
+                    const SizedBox(height: 20),
+                    const AppShortcuts(),
                   ],
                 ),
               );

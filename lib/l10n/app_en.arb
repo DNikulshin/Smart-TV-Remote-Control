@@ -35,6 +35,10 @@
     "description": "Hint printed on the webOS swipe pad"
   },
   "power": "Power",
+  "apps": "Apps",
+  "@apps": {
+    "description": "Label for the row of app shortcuts on the remote"
+  },
   "connecting": "Connecting…",
   "reconnecting": "Reconnecting…",
   "connected": "Connected",

@@ -8,6 +8,10 @@
 
 - `lib/l10n/app_ru.arb` — полный русский перевод (79 строк, плюрализация счётчика устройств).
 - `lib/l10n/app_localizations*.dart` — сгенерированы `flutter gen-l10n`, коммитятся.
+- Громкость (issue #13, Android): `MainActivity.kt` держит играющую `MediaSession` с
+  `VolumeProvider`, пока открыт экран пульта и есть связь; нажатия уходят в
+  `HardwareVolumeKeys` (`lib/core/services/hardware_volume_keys.dart`) и превращаются в
+  `KEY_VOLUP`/`KEY_VOLDOWN`. Проверка Kotlin — только сборкой APK: устройства нет.
 - Приложения (issue #14): `TvApp` в `lib/core/models/tv_app.dart`, id по марке —
   `lib/services/lg/lg_apps.dart` (`ssap://system.launcher/launch`), `lib/services/samsung/samsung_apps.dart`
   (событие `ed.apps.launch`). UI — `app_shortcuts.dart`, последний ряд на экране пульта.
@@ -89,6 +93,9 @@ PY
   - #44 `i18n/ru` — русская локализация, переключатель языка, iOS-название, RU-документация.
     База — `upstream/main`, без `AGENTS.md`.
   - #45 `fix/narrow-remote-overflow` — переполнение экрана пульта на 360 dp; от i18n не зависит.
+  - #46 `feat/hardware-volume-keys` — качелька громкости телефона управляет ТВ (Android,
+    `MediaSession` + `VolumeProvider` в `MainActivity.kt`, канал `.../volume_keys`);
+    от i18n не зависит. iOS не сделан — в issue #13 остаётся открытым.
   - `feat/webos-touchpad` — тачпад для webOS (issue #15). **PR ещё не открыт**: ветка лежит
     поверх `i18n/ru`, потому что тачпад добавляет ключи в `app_ru.arb`, а этот файл появляется
     только в #44. Если #44 смержат — открыть PR; если нет — нести тачпад вместе с локализацией.

@@ -57,6 +57,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `test/ui/volume_keys_test.dart`. iOS has no comparable route, so there the
   keys still change the phone's volume.
 
+- Two more brands, both over plain HTTP on the local network.
+  **Roku** (ECP: `POST /keypress/<Key>`, `/launch/<id>`, `/query/device-info`)
+  needs no pairing — only *Control by mobile apps → Network access* switched
+  on; **Sony BRAVIA** (JSON-RPC plus SOAP `X_SendIRCC`) needs *IP control* on
+  and the pre-shared key, which the add-by-IP dialog now asks for and the app
+  stores like any other credential. Sony button codes come from the set's own
+  `getRemoteControllerInfo` when it answers, with Sony's documented table as
+  the fallback — `Info`, `Exit`, `Rewind` and `Forward` are not in that table,
+  so they are dropped rather than guessed. Both brands are found by SSDP
+  (`roku:ecp`, `urn:schemas-sony-com:service:ScalarWebAPI:1`), both support
+  Wake-on-LAN through the MAC the device reports, and neither has been tested
+  on hardware yet. Tests run against fake devices that speak the real
+  protocols over `dart:io` `HttpServer`.
+
 ### Fixed
 - The remote screen overflowed on narrow phones: the six media buttons need
   more than a 360 dp screen has (the width of most budget Android handsets),

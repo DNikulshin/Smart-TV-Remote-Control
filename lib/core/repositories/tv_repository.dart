@@ -11,7 +11,9 @@ import 'package:remote/core/services/known_tvs_storage.dart';
 import 'package:remote/core/services/tv_token_storage.dart';
 import 'package:remote/core/services/wake_on_lan_service.dart';
 import 'package:remote/implementations/lg_tv.dart';
+import 'package:remote/implementations/roku_tv.dart';
 import 'package:remote/implementations/samsung_tv.dart';
+import 'package:remote/implementations/sony_tv.dart';
 import 'package:remote/services/mdns/bonjour_discovery_service.dart';
 import 'package:remote/services/upnp/ssdp_discovery_service.dart';
 
@@ -149,6 +151,40 @@ class TvRepository {
           });
         }
         tv = lg;
+      case TvBrand.sony:
+        final host = device.host;
+        if (host == null || host.isEmpty) {
+          throw ArgumentError('Sony TVs need an IP address to connect');
+        }
+        // The pre-shared key comes from the add-by-IP dialog; it is stored
+        // like the other brands' credentials once it has worked.
+        final pskKey = tokenKey != null ? 'psk:$tokenKey' : null;
+        final psk =
+            device.additionalInfo['sonyPsk'] as String? ??
+            (pskKey != null ? _tokenStorage.load(pskKey) : null);
+        final sony = SonyTV(
+          host: host,
+          mac: device.mac,
+          deviceName: device.deviceName,
+          modelName: device.modelName,
+          preSharedKey: psk,
+        )..setOnDisconnectedCallback(onDisconnect);
+        if (pskKey != null && psk != null && psk.isNotEmpty) {
+          unawaited(_tokenStorage.save(pskKey, psk));
+        }
+        tv = sony;
+      case TvBrand.roku:
+        final host = device.host;
+        if (host == null || host.isEmpty) {
+          throw ArgumentError('Roku devices need an IP address to connect');
+        }
+        // ECP needs no pairing: there is nothing to store or send back.
+        tv = RokuTV(
+          host: host,
+          mac: device.mac,
+          deviceName: device.deviceName,
+          modelName: device.modelName,
+        )..setOnDisconnectedCallback(onDisconnect);
     }
 
     await tv.connect();
@@ -166,11 +202,9 @@ class TvRepository {
         resolvedIdentifier != null &&
         resolvedIdentifier != identifier) {
       final token = _tokenStorage.load(tokenKey);
-      if (token != null) {
-        await _tokenStorage.save(
-          _tokenKeyFor(brand, resolvedIdentifier),
-          token,
-        );
+      final resolvedKey = _tokenKeyFor(brand, resolvedIdentifier);
+      if (token != null && resolvedKey != null) {
+        await _tokenStorage.save(resolvedKey, token);
       }
     }
 
@@ -238,6 +272,7 @@ class TvRepository {
     for (final identifier in aliases) {
       for (final brand in TvBrand.values) {
         final key = _tokenKeyFor(brand, identifier);
+        if (key == null) continue;
         await _tokenStorage.clear(key);
         await _tokenStorage.clear('cert:$key');
       }
@@ -266,9 +301,13 @@ class TvRepository {
 
   /// Samsung tokens keep the bare identifier so existing installs keep
   /// their pairing; other brands are namespaced.
-  String _tokenKeyFor(TvBrand brand, String identifier) => switch (brand) {
+  /// `null` for a brand that stores no credentials (Roku).
+  String? _tokenKeyFor(TvBrand brand, String identifier) => switch (brand) {
     TvBrand.samsung => identifier,
     TvBrand.lg => 'lg:$identifier',
+    // Roku stores nothing, so it has no key either.
+    TvBrand.roku => null,
+    TvBrand.sony => 'sony:$identifier',
   };
 
   String? _identifierFor(TVDevice device) {

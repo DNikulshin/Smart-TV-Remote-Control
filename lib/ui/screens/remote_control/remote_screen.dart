@@ -1,21 +1,32 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:remote/blocs/tv_connection/tv_connection_bloc.dart';
 import 'package:remote/constants/key_codes.dart';
 import 'package:remote/core/models/disconnection_type.dart';
 import 'package:remote/core/models/tv_brand.dart';
+import 'package:remote/core/services/hardware_volume_keys.dart';
 import 'package:remote/l10n/app_localizations.dart';
 import 'package:remote/ui/widgets/remote_controls/components/components.dart';
 import 'package:remote/ui/widgets/remote_controls/tv_actions.dart';
 
 class RemoteScreen extends StatefulWidget {
-  const RemoteScreen({super.key});
+  const RemoteScreen({super.key, this.volumeKeys});
+
+  /// Overridable so tests can drive the volume-key channel; the app lets the
+  /// screen build its own.
+  final HardwareVolumeKeys? volumeKeys;
 
   @override
   State<RemoteScreen> createState() => _RemoteScreenState();
 }
 
 class _RemoteScreenState extends State<RemoteScreen> {
+  late final HardwareVolumeKeys _volumeKeys =
+      widget.volumeKeys ?? HardwareVolumeKeys();
+
   bool _keypadShown = false;
 
   /// The touchpad replaces the arrow cluster while it is on; both are useful
@@ -31,6 +42,32 @@ class _RemoteScreenState extends State<RemoteScreen> {
     _touchpadShown = !_touchpadShown;
     if (_touchpadShown) _keypadShown = false;
   });
+
+  /// Takes the phone's volume keys over while the remote is on screen and
+  /// connected: with a TV in front of you, the rocker should change the TV's
+  /// volume, not the phone's.
+  Future<void> _startVolumeCapture() async {
+    if (_volumeKeys.isCapturing) return;
+    final started = await _volumeKeys.start((direction) {
+      if (!mounted) return;
+      context.sendTvKey(
+        direction == VolumeKeyDirection.up
+            ? KeyCodes.KEY_VOLUP
+            : KeyCodes.KEY_VOLDOWN,
+      );
+    });
+    if (!started) {
+      log('Volume keys are not captured on this platform');
+    }
+  }
+
+  Future<void> _stopVolumeCapture() => _volumeKeys.stop();
+
+  @override
+  void dispose() {
+    unawaited(_stopVolumeCapture());
+    super.dispose();
+  }
 
   Future<void> _handlePower(BuildContext context) async {
     context.sendTvKey(KeyCodes.KEY_POWER);
@@ -73,6 +110,11 @@ class _RemoteScreenState extends State<RemoteScreen> {
             }
           case _:
             break;
+        }
+        if (state.isConnected) {
+          unawaited(_startVolumeCapture());
+        } else {
+          unawaited(_stopVolumeCapture());
         }
       },
       child: Scaffold(

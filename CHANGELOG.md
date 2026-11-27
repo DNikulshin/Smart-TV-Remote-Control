@@ -49,6 +49,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   the last section on the remote, and the screen now scrolls instead of
   squeezing its controls when a phone is short.
 
+- The phone's hardware volume keys control the TV while the remote is open and
+  connected. Android takes the keys over with a playing media session whose
+  volume is remote-controlled, so the phone's own volume neither changes nor
+  shows its panel; leaving the screen or losing the connection hands the keys
+  back. Covered by `test/core/services/hardware_volume_keys_test.dart` and
+  `test/ui/volume_keys_test.dart`. iOS has no comparable route, so there the
+  keys still change the phone's volume.
+
 ### Fixed
 - The remote screen overflowed on narrow phones: the six media buttons need
   more than a 360 dp screen has (the width of most budget Android handsets),

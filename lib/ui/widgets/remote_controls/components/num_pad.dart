@@ -31,13 +31,24 @@ class NumPad extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Four fixed-size rows do not always fit the space the rest of the remote
+    // leaves on a short screen, so each row scales down instead of pushing the
+    // column past the bottom edge. No Expanded: the screen gives this a
+    // fixed-height box.
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: _digits
           .map(
-            (row) => Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: row.digits.map((d) => _NumButton(digit: d)).toList(),
+            (row) => Flexible(
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: row.digits
+                      .map((d) => _NumButton(digit: d))
+                      .toList(),
+                ),
+              ),
             ),
           )
           .toList(),

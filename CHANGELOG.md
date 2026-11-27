@@ -50,6 +50,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   squeezing its controls when a phone is short.
 
 ### Fixed
+- The remote screen overflowed on narrow phones: the six media buttons need
+  more than a 360 dp screen has (the width of most budget Android handsets),
+  and the numeric keypad's four fixed rows did not fit the height left on a
+  short screen. Both now give each control an equal share and scale it down
+  instead of spilling past the edge; the media buttons stay tappable at
+  320 dp. Covered by `test/ui/narrow_screen_test.dart`.
 - The Russian device counter rendered a literal `#` (`Найдено # устройства`):
   the ARB used the ICU `#` placeholder, which `flutter gen-l10n` keeps as
   text. The plural cases now interpolate `{count}`, and

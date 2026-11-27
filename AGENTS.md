@@ -58,7 +58,7 @@
 кнопок поддержаны, какие алиасы намеренные (Roku: `MENU` → `Info`, `PAUSE` → `Play`), что
 не поддержано по замыслу и какие 2–3 вопроса может решить только железо (скорость курсора
 webOS, отвечает ли Bravia в `getRemoteControllerInfo`, живые ли id приложений Tizen).
-Ветка `docs/tester-checklist`, PR не открыт.
+Ветка `docs/tester-checklist`, PR #52.
 
 ## Открытые PR и их совместимость
 

@@ -17,7 +17,12 @@
 - Громкость (issue #13, Android): `MainActivity.kt` держит играющую `MediaSession` с
   `VolumeProvider`, пока открыт экран пульта и есть связь; нажатия уходят в
   `HardwareVolumeKeys` (`lib/core/services/hardware_volume_keys.dart`) и превращаются в
-  `KEY_VOLUP`/`KEY_VOLDOWN`. Проверка Kotlin — только сборкой APK: устройства нет.
+  `KEY_VOLUP`/`KEY_VOLDOWN`. Три грабли, найденные ревью: без `session.setCallback(...)`
+  AOSP `MediaSession.postToCallback` молча выбрасывает изменение громкости и
+  `onAdjustVolume` не срабатывает; `BlocListener` не вызывает слушателя для начального
+  состояния, поэтому экран пульта синхронизирует захват с тем состоянием, на котором
+  открылся (в обычном сценарии пикер пушит пульт уже подключённым); в фоне клавиши
+  отпускаются через `didChangeAppLifecycleState`. Проверка Kotlin — только сборкой APK.
 - Приложения (issue #14): `TvApp` в `lib/core/models/tv_app.dart`, id по марке —
   `lib/services/lg/lg_apps.dart` (`ssap://system.launcher/launch`), `lib/services/samsung/samsung_apps.dart`
   (событие `ed.apps.launch`). UI — `app_shortcuts.dart`, последний ряд на экране пульта.
@@ -121,7 +126,7 @@ PY
     с заголовком «Feat/app launcher» — заполнен вручную.)
   - `main` форка = #44 + тачпад + приложения + фикс вёрстки (#45) + громкость (#46) + Roku/Sony (#48)
     + марка на карточке (#50) + fr/de/pt (#51); в upstream уходят только сами фичи.
-    Состояние main проверено целиком: 190 тестов, покрытие 70.2%, `flutter build apk --debug`
+    Состояние main проверено целиком: 194 теста, покрытие 70.5%, `flutter build apk --debug`
     проходит.
 - Правило для новых фич: если изменения не трогают файлы из #44, ветку можно резать прямо от
   `upstream/main` и открывать PR сразу (так сделаны #45, #46, #48).

@@ -297,4 +297,20 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get languagePortuguese => 'Português';
+
+  @override
+  String clientIdentity(String name, String ip) {
+    return 'Na TV, permitir «$name» de $ip';
+  }
+
+  @override
+  String clientIdentityNoIp(String name) {
+    return 'Na TV, permitir «$name»';
+  }
+
+  @override
+  String get copyIdentity => 'Copiar o nome e o endereço';
+
+  @override
+  String get copied => 'Copiado';
 }

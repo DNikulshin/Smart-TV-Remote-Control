@@ -641,6 +641,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Portuguese'**
   String get languagePortuguese;
+
+  /// What to allow on the TV, with the phone address some sets list
+  ///
+  /// In en, this message translates to:
+  /// **'On the TV, allow “{name}” from {ip}'**
+  String clientIdentity(String name, String ip);
+
+  /// Same, when the phone has no local address to show
+  ///
+  /// In en, this message translates to:
+  /// **'On the TV, allow “{name}”'**
+  String clientIdentityNoIp(String name);
+
+  /// Tooltip of the copy button next to the identity line
+  ///
+  /// In en, this message translates to:
+  /// **'Copy the name and address'**
+  String get copyIdentity;
+
+  /// Confirmation after the identity was copied
+  ///
+  /// In en, this message translates to:
+  /// **'Copied'**
+  String get copied;
 }
 
 class _AppLocalizationsDelegate

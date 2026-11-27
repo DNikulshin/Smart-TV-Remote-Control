@@ -289,4 +289,20 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get languagePortuguese => 'Portugués';
+
+  @override
+  String clientIdentity(String name, String ip) {
+    return 'En el televisor, permite «$name» desde $ip';
+  }
+
+  @override
+  String clientIdentityNoIp(String name) {
+    return 'En el televisor, permite «$name»';
+  }
+
+  @override
+  String get copyIdentity => 'Copiar el nombre y la dirección';
+
+  @override
+  String get copied => 'Copiado';
 }

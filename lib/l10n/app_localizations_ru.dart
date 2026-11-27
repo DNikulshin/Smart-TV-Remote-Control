@@ -298,4 +298,20 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get languagePortuguese => 'Португальский';
+
+  @override
+  String clientIdentity(String name, String ip) {
+    return 'На телевизоре разрешить «$name» — $ip';
+  }
+
+  @override
+  String clientIdentityNoIp(String name) {
+    return 'На телевизоре разрешить «$name»';
+  }
+
+  @override
+  String get copyIdentity => 'Скопировать имя и адрес';
+
+  @override
+  String get copied => 'Скопировано';
 }

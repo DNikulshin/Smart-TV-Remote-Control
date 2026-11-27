@@ -88,5 +88,9 @@
   "languageArabic": "Arabisch",
   "languageFrench": "Französisch",
   "languageGerman": "Deutsch",
-  "languagePortuguese": "Portugiesisch"
+  "languagePortuguese": "Portugiesisch",
+  "clientIdentity": "Am TV „{name}“ von {ip} erlauben",
+  "clientIdentityNoIp": "Am TV „{name}“ erlauben",
+  "copyIdentity": "Namen und Adresse kopieren",
+  "copied": "Kopiert"
 }

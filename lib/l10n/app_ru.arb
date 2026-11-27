@@ -88,5 +88,9 @@
   "languageArabic": "Арабский",
   "languageFrench": "Французский",
   "languageGerman": "Немецкий",
-  "languagePortuguese": "Португальский"
+  "languagePortuguese": "Португальский",
+  "clientIdentity": "На телевизоре разрешить «{name}» — {ip}",
+  "clientIdentityNoIp": "На телевизоре разрешить «{name}»",
+  "copyIdentity": "Скопировать имя и адрес",
+  "copied": "Скопировано"
 }

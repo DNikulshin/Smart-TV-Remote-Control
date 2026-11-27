@@ -24,6 +24,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   persisted in `shared_preferences`; "System default" follows the device
   again. `LocaleCubit` / `LocaleStorage`, covered by storage, cubit and
   widget tests.
+- The picker shows the name and address the TV will see, so the set's
+  "allow this device?" prompt and its device list can be matched to the phone
+  in hand: `ClientIdentityCard` under the scan status, with a copy button
+  (`kClientAppName`, `localIPv4` in `lib/constants/client_identity.dart`).
+- Samsung sets were asked to allow `DartSamsungSmartTVDriver` — the name of the
+  driver this client was modelled on, which reads like malware on a TV screen.
+  All four brands now announce `Smart TV Remote`.
 - Test suite grown from 44 to 88 cases; line coverage from 28% to 65%.
   `FakeWebOsTv` drives the real LG client over a genuine WebSocket
   (plaintext and TLS), covering registration, the unsigned-manifest retry,

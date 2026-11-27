@@ -297,4 +297,20 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get languagePortuguese => 'Portugais';
+
+  @override
+  String clientIdentity(String name, String ip) {
+    return 'Sur le téléviseur, autoriser « $name » depuis $ip';
+  }
+
+  @override
+  String clientIdentityNoIp(String name) {
+    return 'Sur le téléviseur, autoriser « $name »';
+  }
+
+  @override
+  String get copyIdentity => 'Copier le nom et l’adresse';
+
+  @override
+  String get copied => 'Copié';
 }

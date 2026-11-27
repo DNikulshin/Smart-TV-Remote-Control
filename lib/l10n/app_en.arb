@@ -136,5 +136,34 @@
   "languageArabic": "Arabic",
   "languageFrench": "French",
   "languageGerman": "German",
-  "languagePortuguese": "Portuguese"
+  "languagePortuguese": "Portuguese",
+  "clientIdentity": "On the TV, allow “{name}” from {ip}",
+  "@clientIdentity": {
+    "description": "What to allow on the TV, with the phone address some sets list",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "ip": {
+        "type": "String"
+      }
+    }
+  },
+  "clientIdentityNoIp": "On the TV, allow “{name}”",
+  "@clientIdentityNoIp": {
+    "description": "Same, when the phone has no local address to show",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "copyIdentity": "Copy the name and address",
+  "@copyIdentity": {
+    "description": "Tooltip of the copy button next to the identity line"
+  },
+  "copied": "Copied",
+  "@copied": {
+    "description": "Confirmation after the identity was copied"
+  }
 }

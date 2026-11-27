@@ -88,5 +88,9 @@
   "languageArabic": "العربية",
   "languageFrench": "الفرنسية",
   "languageGerman": "الألمانية",
-  "languagePortuguese": "البرتغالية"
+  "languagePortuguese": "البرتغالية",
+  "clientIdentity": "على التلفاز، اسمح بـ «{name}» من {ip}",
+  "clientIdentityNoIp": "على التلفاز، اسمح بـ «{name}»",
+  "copyIdentity": "نسخ الاسم والعنوان",
+  "copied": "تم النسخ"
 }

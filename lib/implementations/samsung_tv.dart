@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:remote/constants/client_identity.dart';
 import 'package:remote/constants/key_codes.dart';
 import 'package:remote/core/interfaces/tv_interface.dart';
 import 'package:remote/core/models/connection_state.dart';
@@ -66,7 +67,7 @@ class SamsungTV implements TVInterface {
   }
 
   @override
-  Future<void> connect({String appName = 'DartSamsungSmartTVDriver'}) {
+  Future<void> connect({String appName = kClientAppName}) {
     return _service.connect(appName: appName);
   }
 

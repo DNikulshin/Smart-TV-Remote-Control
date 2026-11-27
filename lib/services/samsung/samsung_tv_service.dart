@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:remote/constants/client_identity.dart';
 import 'package:remote/constants/key_codes.dart';
 import 'package:remote/core/models/disconnection_type.dart';
 import 'package:remote/services/samsung/samsung_apps.dart';
@@ -56,7 +57,7 @@ class SamsungTVService {
     onTokenReceived = callback;
   }
 
-  Future<void> connect({String appName = 'DartSamsungSmartTVDriver'}) async {
+  Future<void> connect({String appName = kClientAppName}) async {
     if (_isConnected) {
       log('Already connected to device');
       return;

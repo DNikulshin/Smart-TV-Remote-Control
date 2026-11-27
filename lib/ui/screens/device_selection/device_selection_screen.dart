@@ -5,6 +5,7 @@ import 'package:remote/blocs/device_discovery/device_discovery_bloc.dart';
 import 'package:remote/blocs/tv_connection/tv_connection_bloc.dart';
 import 'package:remote/core/models/tv_device.dart';
 import 'package:remote/l10n/app_localizations.dart';
+import 'package:remote/ui/screens/device_selection/widgets/client_identity_card.dart';
 import 'package:remote/ui/screens/device_selection/widgets/device_list_item.dart';
 import 'package:remote/ui/screens/device_selection/widgets/manual_ip_dialog.dart';
 import 'package:remote/ui/screens/remote_control/remote_screen.dart';
@@ -101,6 +102,8 @@ class _DeviceSelectionView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const _StatusHeader(),
+                  const SizedBox(height: 12),
+                  const ClientIdentityCard(),
                   const SizedBox(height: 24),
                   Expanded(
                     child:

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:remote/constants/client_identity.dart';
 import 'package:remote/constants/key_codes.dart';
 import 'package:remote/core/interfaces/tv_interface.dart';
 import 'package:remote/core/models/connection_state.dart';
@@ -75,8 +76,7 @@ class LGTV implements TVInterface {
   }
 
   @override
-  Future<void> connect({String appName = 'Smart TV Remote'}) =>
-      _service.connect();
+  Future<void> connect({String appName = kClientAppName}) => _service.connect();
 
   @override
   void disconnect() => _service.disconnect();

@@ -289,4 +289,20 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get languagePortuguese => 'البرتغالية';
+
+  @override
+  String clientIdentity(String name, String ip) {
+    return 'على التلفاز، اسمح بـ «$name» من $ip';
+  }
+
+  @override
+  String clientIdentityNoIp(String name) {
+    return 'على التلفاز، اسمح بـ «$name»';
+  }
+
+  @override
+  String get copyIdentity => 'نسخ الاسم والعنوان';
+
+  @override
+  String get copied => 'تم النسخ';
 }
